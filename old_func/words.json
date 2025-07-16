@@ -1,0 +1,726 @@
+[
+  {
+    "id": 1,
+    "word": "catch up",
+    "synonyms": [
+      "reach the same level"
+    ],
+    "example": "I had to catch up with my classmates.",
+    "done": false
+  },
+  {
+    "id": 2,
+    "word": "private tutor",
+    "synonyms": [
+      "personal teacher"
+    ],
+    "example": "My mom found a private tutor for me.",
+    "done": false
+  },
+  {
+    "id": 3,
+    "word": "progress stopped",
+    "synonyms": [
+      "improvement ended"
+    ],
+    "example": "My progress stopped when she left.",
+    "done": false
+  },
+  {
+    "id": 4,
+    "word": "return to something",
+    "synonyms": [
+      "get back to"
+    ],
+    "example": "I tried to return to English several times.",
+    "done": false
+  },
+  {
+    "id": 5,
+    "word": "fail at something",
+    "synonyms": [
+      "not succeed"
+    ],
+    "example": "I failed every time I tried.",
+    "done": false
+  },
+  {
+    "id": 6,
+    "word": "lazy",
+    "synonyms": [
+      "unmotivated",
+      "passive"
+    ],
+    "example": "I was too lazy to study properly.",
+    "done": false
+  },
+  {
+    "id": 7,
+    "word": "didn’t see the point",
+    "synonyms": [
+      "had no reason",
+      "had no motivation"
+    ],
+    "example": "I didn’t see the point of learning English.",
+    "done": false
+  },
+  {
+    "id": 8,
+    "word": "travel the world",
+    "synonyms": [
+      "explore the world",
+      "go abroad"
+    ],
+    "example": "I want to travel the world someday.",
+    "done": false
+  },
+  {
+    "id": 9,
+    "word": "join (a course)",
+    "synonyms": [
+      "sign up for"
+    ],
+    "example": "I joined an English school seven months ago.",
+    "done": false
+  },
+  {
+    "id": 10,
+    "word": "focus on",
+    "synonyms": [
+      "concentrate on"
+    ],
+    "example": "The lessons focus on speaking.",
+    "done": false
+  },
+  {
+    "id": 11,
+    "word": "make progress",
+    "synonyms": [
+      "improve",
+      "get better"
+    ],
+    "example": "I think I’ve made some progress.",
+    "done": false
+  },
+  {
+    "id": 12,
+    "word": "besides that",
+    "synonyms": [
+      "in addition",
+      "also"
+    ],
+    "example": "Besides that, I practise writing with ChatGPT.",
+    "done": false
+  },
+  {
+    "id": 13,
+    "word": "not enough",
+    "synonyms": [
+      "insufficient"
+    ],
+    "example": "It’s not enough — I need more vocabulary.",
+    "done": false
+  },
+  {
+    "id": 14,
+    "word": "natural speech",
+    "synonyms": [
+      "fluent expression",
+      "human-like speech"
+    ],
+    "example": "I want my speech to sound more natural.",
+    "done": false
+  },
+  {
+    "id": 15,
+    "word": "motivate / be motivated",
+    "synonyms": [
+      "inspire",
+      "encourage"
+    ],
+    "example": "I’ve become more motivated to improve.",
+    "done": false
+  },
+  {
+    "id": 16,
+    "word": "medium-sized city",
+    "synonyms": [
+      "town",
+      "regional centre"
+    ],
+    "example": "I have lived in a medium-sized city all my life.",
+    "done": false
+  },
+  {
+    "id": 17,
+    "word": "pace of life",
+    "synonyms": [
+      "lifestyle speed"
+    ],
+    "example": "I love the slow pace of life here.",
+    "done": false
+  },
+  {
+    "id": 18,
+    "word": "endless traffic jams",
+    "synonyms": [
+      "eternal traffic",
+      "heavy traffic"
+    ],
+    "example": "Big cities suffer from endless traffic jams.",
+    "done": false
+  },
+  {
+    "id": 19,
+    "word": "homey vibe",
+    "synonyms": [
+      "cozy atmosphere",
+      "feeling of home"
+    ],
+    "example": "I need a place that gives me a homey vibe.",
+    "done": true
+  },
+  {
+    "id": 20,
+    "word": "self-development",
+    "synonyms": [
+      "personal growth"
+    ],
+    "example": "Big cities offer many chances for self-development.",
+    "done": false
+  },
+  {
+    "id": 21,
+    "word": "career growth",
+    "synonyms": [
+      "career advancement"
+    ],
+    "example": "Many people move to cities for career growth.",
+    "done": false
+  },
+  {
+    "id": 22,
+    "word": "completely understand",
+    "synonyms": [
+      "fully understand"
+    ],
+    "example": "I completely understand their decision.",
+    "done": false
+  },
+  {
+    "id": 23,
+    "word": "reach a goal",
+    "synonyms": [
+      "achieve a goal"
+    ],
+    "example": "If reaching your goal means moving — do it!",
+    "done": false
+  },
+  {
+    "id": 24,
+    "word": "tiring",
+    "synonyms": [
+      "exhausting",
+      "draining"
+    ],
+    "example": "It was a long and tiring day.",
+    "done": false
+  },
+  {
+    "id": 25,
+    "word": "permit",
+    "synonyms": [
+      "allow",
+      "authorize"
+    ],
+    "example": "You need a permit to enter this area.",
+    "done": false
+  },
+  {
+    "id": 26,
+    "word": "skyscraper",
+    "synonyms": [
+      "high-rise building"
+    ],
+    "example": "New York is famous for its tall skyscrapers.",
+    "done": false
+  },
+  {
+    "id": 27,
+    "word": "worth",
+    "synonyms": [
+      "valuable",
+      "worthwhile"
+    ],
+    "example": "This book is worth reading.",
+    "done": false
+  },
+  {
+    "id": 28,
+    "word": "worth visiting",
+    "synonyms": [
+      "recommended",
+      "must-see"
+    ],
+    "example": "The museum is worth visiting.",
+    "done": false
+  },
+  {
+    "id": 29,
+    "word": "vibrant",
+    "synonyms": [
+      "lively",
+      "energetic"
+    ],
+    "example": "The city has a vibrant nightlife.",
+    "done": false
+  },
+  {
+    "id": 30,
+    "word": "surrounding",
+    "synonyms": [
+      "nearby",
+      "neighboring"
+    ],
+    "example": "We explored the surrounding villages.",
+    "done": false
+  },
+  {
+    "id": 31,
+    "word": "narrow",
+    "synonyms": [
+      "tight",
+      "thin",
+      "small"
+    ],
+    "example": "The car couldn’t pass through the narrow street.",
+    "done": false
+  },
+  {
+    "id": 32,
+    "word": "to the fullest",
+    "synonyms": [
+      "completely",
+      "totally"
+    ],
+    "example": "I want to live life to the fullest.",
+    "done": false
+  },
+  {
+    "id": 33,
+    "word": "reflect",
+    "synonyms": [
+      "think",
+      "meditate"
+    ],
+    "example": "Rain helps me relax and reflect.",
+    "done": false
+  },
+  {
+    "id": 34,
+    "word": "feel the sunlight",
+    "synonyms": [
+      "enjoy the sun",
+      "soak up the sun"
+    ],
+    "example": "I like walking and feeling the sunlight.",
+    "done": false
+  },
+  {
+    "id": 35,
+    "word": "symbolise",
+    "synonyms": [
+      "represent",
+      "show"
+    ],
+    "example": "Flowers symbolise a new beginning.",
+    "done": false
+  },
+  {
+    "id": 36,
+    "word": "hard times",
+    "synonyms": [
+      "difficult periods"
+    ],
+    "example": "Even after hard times, better days come.",
+    "done": false
+  },
+  {
+    "id": 37,
+    "word": "outdoor games",
+    "synonyms": [
+      "games outside"
+    ],
+    "example": "We play outdoor games with friends.",
+    "done": false
+  },
+  {
+    "id": 38,
+    "word": "enjoy the moment",
+    "synonyms": [
+      "live in the present"
+    ],
+    "example": "I really enjoy these moments.",
+    "done": false
+  },
+  {
+    "id": 39,
+    "word": "offend",
+    "synonyms": [
+      "insult",
+      "hurt",
+      "upset"
+    ],
+    "example": "I didn’t mean to offend you.",
+    "done": false
+  },
+  {
+    "id": 40,
+    "word": "vague",
+    "synonyms": [
+      "unclear",
+      "blurry"
+    ],
+    "example": "My memories of that day are vague.",
+    "done": false
+  },
+  {
+    "id": 41,
+    "word": "ancient",
+    "synonyms": [
+      "very old",
+      "historic"
+    ],
+    "example": "We visited an ancient temple in Greece.",
+    "done": false
+  },
+  {
+    "id": 42,
+    "word": "challenge",
+    "synonyms": [
+      "difficult task",
+      "test"
+    ],
+    "example": "Climbing that mountain was a real challenge.",
+    "done": false
+  },
+  {
+    "id": 43,
+    "word": "relaxing",
+    "synonyms": [
+      "calming",
+      "peaceful"
+    ],
+    "example": "The music was soft and relaxing.",
+    "done": false
+  },
+  {
+    "id": 44,
+    "word": "expect",
+    "synonyms": [
+      "wait for",
+      "believe will happen"
+    ],
+    "example": "I expect the guests to arrive at 6.",
+    "done": false
+  },
+  {
+    "id": 45,
+    "word": "respect",
+    "synonyms": [
+      "admiration",
+      "consideration"
+    ],
+    "example": "We should treat others with respect.",
+    "done": false
+  },
+  {
+    "id": 46,
+    "word": "habit",
+    "synonyms": [
+      "routine",
+      "regular behaviour"
+    ],
+    "example": "Drinking water after waking up is a good habit.",
+    "done": false
+  },
+  {
+    "id": 47,
+    "word": "dangerous",
+    "synonyms": [
+      "risky",
+      "harmful"
+    ],
+    "example": "Wild animals can be dangerous.",
+    "done": false
+  },
+  {
+    "id": 48,
+    "word": "solution",
+    "synonyms": [
+      "answer",
+      "fix"
+    ],
+    "example": "There is always a solution to every problem.",
+    "done": false
+  },
+  {
+    "id": 49,
+    "word": "rare",
+    "synonyms": [
+      "uncommon",
+      "unusual"
+    ],
+    "example": "This bird is very rare in Europe.",
+    "done": false
+  },
+  {
+    "id": 50,
+    "word": "confidence",
+    "synonyms": [
+      "self-belief",
+      "trust in yourself"
+    ],
+    "example": "I feel more confident when I practise.",
+    "done": false
+  },
+  {
+    "id": 51,
+    "word": "borrow",
+    "synonyms": [
+      "take temporarily"
+    ],
+    "example": "Can I borrow your book for a week?",
+    "done": false
+  },
+  {
+    "id": 52,
+    "word": "explore",
+    "synonyms": [
+      "discover",
+      "travel around"
+    ],
+    "example": "We explored the ancient ruins.",
+    "done": false
+  },
+  {
+    "id": 53,
+    "word": "excited",
+    "synonyms": [
+      "thrilled",
+      "enthusiastic"
+    ],
+    "example": "I’m excited about the concert tonight.",
+    "done": false
+  },
+  {
+    "id": 54,
+    "word": "responsibility",
+    "synonyms": [
+      "duty",
+      "obligation"
+    ],
+    "example": "He has a lot of responsibilities at work.",
+    "done": false
+  },
+  {
+    "id": 55,
+    "word": "trust",
+    "synonyms": [
+      "believe",
+      "have confidence"
+    ],
+    "example": "She trusts her parents completely.",
+    "done": false
+  },
+  {
+    "id": 56,
+    "word": "mention",
+    "synonyms": [
+      "say briefly",
+      "refer to"
+    ],
+    "example": "He mentioned his trip during the call.",
+    "done": false
+  },
+  {
+    "id": 57,
+    "word": "improve",
+    "synonyms": [
+      "develop",
+      "get better"
+    ],
+    "example": "She wants to improve her writing.",
+    "done": false
+  },
+  {
+    "id": 58,
+    "word": "share",
+    "synonyms": [
+      "divide",
+      "give part of"
+    ],
+    "example": "We shared the pizza equally.",
+    "done": false
+  },
+  {
+    "id": 59,
+    "word": "protect",
+    "synonyms": [
+      "defend",
+      "guard"
+    ],
+    "example": "Helmets protect your head when cycling.",
+    "done": false
+  },
+  {
+    "id": 60,
+    "word": "careful",
+    "synonyms": [
+      "cautious",
+      "attentive"
+    ],
+    "example": "Be careful not to break it.",
+    "done": false
+  },
+  {
+    "id": 61,
+    "word": "journey",
+    "synonyms": [
+      "trip",
+      "travel"
+    ],
+    "example": "We started our journey early in the morning.",
+    "done": false
+  },
+  {
+    "id": 62,
+    "word": "create",
+    "synonyms": [
+      "make",
+      "invent"
+    ],
+    "example": "The artist created a new sculpture.",
+    "done": false
+  },
+  {
+    "id": 63,
+    "word": "argue",
+    "synonyms": [
+      "disagree",
+      "quarrel"
+    ],
+    "example": "They often argue about money.",
+    "done": false
+  },
+  {
+    "id": 64,
+    "word": "goal",
+    "synonyms": [
+      "aim",
+      "target"
+    ],
+    "example": "His main goal is to pass the exam.",
+    "done": false
+  },
+  {
+    "id": 65,
+    "word": "promise",
+    "synonyms": [
+      "commitment",
+      "vow"
+    ],
+    "example": "He made a promise to be on time.",
+    "done": false
+  },
+  {
+    "id": 66,
+    "word": "advice",
+    "synonyms": [
+      "suggestion",
+      "guidance"
+    ],
+    "example": "Can I give you some advice?",
+    "done": false
+  },
+  {
+    "id": 67,
+    "word": "prepare",
+    "synonyms": [
+      "get ready",
+      "plan ahead"
+    ],
+    "example": "She is preparing for her trip.",
+    "done": false
+  },
+  {
+    "id": 68,
+    "word": "laugh",
+    "synonyms": [
+      "giggle",
+      "chuckle"
+    ],
+    "example": "They laughed at the funny movie.",
+    "done": false
+  },
+  {
+    "id": 69,
+    "word": "choice",
+    "synonyms": [
+      "decision",
+      "option"
+    ],
+    "example": "That was a difficult choice to make.",
+    "done": false
+  },
+  {
+    "id": 70,
+    "word": "honest",
+    "synonyms": [
+      "truthful",
+      "sincere"
+    ],
+    "example": "He is honest and never lies.",
+    "done": false
+  },
+  {
+    "id": 71,
+    "word": "reach",
+    "synonyms": [
+      "arrive at",
+      "achieve"
+    ],
+    "example": "She reached her goal after years of work.",
+    "done": false
+  },
+  {
+    "id": 72,
+    "word": "strange",
+    "synonyms": [
+      "unusual",
+      "odd"
+    ],
+    "example": "The story sounded very strange.",
+    "done": false
+  },
+  {
+    "id": 73,
+    "word": "decision",
+    "synonyms": [
+      "choice",
+      "conclusion"
+    ],
+    "example": "He made a decision to stay in London.",
+    "done": false
+  },
+  {
+    "id": 74,
+    "word": "prefer",
+    "synonyms": [
+      "choose",
+      "like better"
+    ],
+    "example": "Most people prefer summer to winter.",
+    "done": false
+  }
+]
