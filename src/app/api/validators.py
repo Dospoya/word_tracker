@@ -4,13 +4,30 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.app.crud.user import bot_user_crud
 from src.app.crud.profile import profile_crud
+from src.app.models import User, Profile
 from src.app.schemas.user import UserCreate
 
 
-async def check_user_exists_by_tg_id(
+async def validate_user_exists(
+    tg_id: int,
+    session: AsyncSession,
+) -> User:
+    existing_user = await bot_user_crud.get_user_by_tg_id(
+        tg_id=tg_id,
+        session=session,
+    )
+    if not existing_user:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f'Пользователь с tg_id: {tg_id} не найден',
+        )
+    return existing_user
+
+
+async def validate_user_absent(
     user_in: UserCreate,
     session: AsyncSession,
-):
+) -> UserCreate:
     existing_user = await bot_user_crud.get_user_by_tg_id(
         tg_id=user_in.tg_id,
         session=session,
@@ -23,7 +40,7 @@ async def check_user_exists_by_tg_id(
     )
 
 
-async def check_profile_exists(
+async def validate_user_profile_exists(
     user_id: int,
     session: AsyncSession,
 ):

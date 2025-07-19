@@ -13,7 +13,6 @@ MAX_FIELD_LEN = 128
 class UserRole(str, Enum):
     USER = 'user'
     ADMIN = 'admin'
-    APPLICANT = 'applicant'
 
 class User(SQLAlchemyBaseUserTable[int], Base):
     tg_id = Column(BigInteger, unique=True)

@@ -11,8 +11,9 @@ class CRUDUser(CRUDBase[User, UserCreate, UserUpdate]):
         session: AsyncSession,
         tg_id: int,
     ) -> User | None:
-        query = select(User).where(User.tg_id == tg_id)
-        result = await session.execute(query)
+        result = await session.execute(
+            select(User).where(User.tg_id == tg_id)
+        )
         return result.scalar_one_or_none()
 
 

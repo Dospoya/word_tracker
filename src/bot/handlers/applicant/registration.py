@@ -116,6 +116,7 @@ async def process_variant(
             level=data.get('level'),
             variant=data.get('variant'),
         )
+        await callback.message.answer(MSG_REGISTERED_SUCCESS)
     except Exception as e:
         logging.info(f'Ошибка {e}')
         await callback.message.answer('Ошибка регистрации. Обратитесь к администратору')
