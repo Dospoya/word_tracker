@@ -14,11 +14,8 @@ from sqlalchemy.ext.asyncio import AsyncEngine
 
 from alembic import context
 
-from wordtracker.core.base import Base
+from src.app.core.base import Base
 
-# Загрузим файл .env в переменные окружения.
-# Библиотека python-dotenv умеет находить файл в «вышестоящих» каталогах,
-# поэтому полный путь указывать не обязательно.
 load_dotenv('.env')
 
 # this is the Alembic Config object, which provides

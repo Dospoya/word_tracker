@@ -1,3 +1,5 @@
+import logging
+
 from aiogram.types import (
     CallbackQuery,
     Message,
@@ -16,12 +18,12 @@ from src.bot.constants.text import (
 from src.bot.fsm.register import RegistrationState
 from src.bot.keyboard.inline.registration import (
     REGISTER_CALLBACK,
-    registration_kb,
     registration_level_keyboard,
     registration_variant_keyboard,
-
 )
+from src.bot.serviсes.api import full_user_registration
 from src.bot.utils.validators import is_valid_russian_name
+from distutils.log import info
 
 
 registration_router = Router()
@@ -108,8 +110,14 @@ async def process_variant(
     data = await state.get_data()
     print(data)
     try:
-        await callback.message.answer(MSG_REGISTERED_SUCCESS)
+        await full_user_registration(
+            first_name=data.get('name'),
+            tg_id=callback.from_user.id,
+            level=data.get('level'),
+            variant=data.get('variant'),
+        )
     except Exception as e:
-        await callback.message.answer(f"An error occurred: {e}")
-    return
+        logging.info(f'Ошибка {e}')
+        await callback.message.answer('Ошибка регистрации. Обратитесь к администратору')
     await state.clear()
+    return

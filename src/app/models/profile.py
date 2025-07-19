@@ -23,17 +23,17 @@ class EnglishLevel(str, Enum):
 class Profile(Base):
     level = Column(String, nullable=False, default=EnglishLevel.B1)
     variant = Column(String, nullable=False, default=EnglishVariant.BRITISH)
-    user_id = Column(Integer, ForeignKey('user.id'), nullable=False)
+    user_id = Column(Integer, ForeignKey('user.id'), nullable=False, unique=True)
     user = relationship(
         'User',
         back_populates='profile',
     )
-    words = relationship(
-        'UserWord',
-        back_populates='profile',
-        cascade='all, delete-orphan',
-        single_parent=True
-    )
+    # words = relationship(
+    #     'UserWord',
+    #     back_populates='profile',
+    #     cascade='all, delete-orphan',
+    #     single_parent=True
+    # )
 
     def __repr__(self) ->str:
         return f'{self.user}'

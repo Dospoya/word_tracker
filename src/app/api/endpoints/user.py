@@ -4,10 +4,10 @@ from fastapi import APIRouter, Depends
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.core.db import get_async_session
-from app.core.user import auth_backend, current_superuser, fastapi_users
-from app.models import User
-from app.schemas.user import (
+from src.app.core.db import get_async_session
+from src.app.core.user import auth_backend, current_superuser, fastapi_users
+from src.app.models import User
+from src.app.schemas.user import (
     UserCreate,
     UserDB,
     UserUpdate,
@@ -43,7 +43,6 @@ async def get_all_users(
         tg_id: Optional[int] = None,
         session: AsyncSession = Depends(get_async_session),
 ) -> List[UserDB]:
-    """Получить список всех пользователей."""
     query = select(User)
     if tg_id is not None:
         query = query.where(User.tg_id == tg_id)

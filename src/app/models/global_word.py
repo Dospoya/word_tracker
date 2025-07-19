@@ -1,13 +1,3 @@
-# Список всех слов добавленных пользователями. Сперва проверяем здесь, если слово есть в списке
-# Возвращаем пользователю слово из БД
-# Если слово не найдено, делаем запрос к API
-# Сохраняем это слово в GlobalWord
-# Нужны модели: GlobalWord, UserWord
-# UserWord - слова и связь с GlobalWord, Userword и WordDetail
-# GlobalWord - слова и связь WordDetail
-# WordDetail - подробная информация о слове
-
-
 from sqlalchemy import Column, String
 from sqlalchemy.orm import relationship
 

@@ -41,13 +41,17 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
         obj_in: CreateSchemaType,
         session: AsyncSession,
         user: Optional[User] = None,
+        commit: bool = True,
     ) -> ModelType:
         obj_in_data = obj_in.dict()
         if user is not None:
             obj_in_data['user_id'] = user.id
         db_obj = self.model(**obj_in_data)
         session.add(db_obj)
-        await session.commit()
+        if commit:
+            await session.commit()
+        else:
+            await session.flush()
         await session.refresh(db_obj)
         return db_obj
 
