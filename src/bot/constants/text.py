@@ -12,6 +12,10 @@ MSG_ENTER_VARIANT = 'Отлично! Теперь выберите, пожалу
 MSG_REGISTERED_SUCCESS = (
     '✅ Вы успешно зарегистрированы! Вот что теперь вы можете делать:'
 )
+MAIN_MENU_OPTION_VOCABULARY = '📖 Словарь'
+MAIN_MENU_OPTION_PRACTICE = '💪 Практика'
+MAIN_MENU_OPTION_PROFILE = '👤 Профиль'
+MAIN_MENU_OPTION_HELP = '⚙️ Помощь'
 
 INVALID_NAME_TEXT = (
     '❌ Имя должно быть на русском языке, от 2 до 30 символов.\n'

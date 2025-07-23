@@ -6,6 +6,9 @@ from src.bot.keyboard.base import InlineKeyboardBase
 from src.bot.keyboard.inline.registration import (
     registration_kb,
 )
+from src.bot.keyboard.inline.user import (
+    user_main_kb,
+)
 from src.bot.constants.text import (
     WELCOME_REGISTRATION_MESSAGE,
 )
@@ -20,7 +23,11 @@ async def start_handler(message: Message, state: FSMContext):
     role = await check_user_role(tg_id)
     match role:
         case 'user':
-            await message.answer(text='Привет, пользователь!')
+            kb: InlineKeyboardBase = user_main_kb().build()
+            await message.answer(
+                text='Привет, пользователь!',
+                reply_markup=kb,
+            )
         case 'admin':
             await message.answer(text='Привет, админ!')
         case _:

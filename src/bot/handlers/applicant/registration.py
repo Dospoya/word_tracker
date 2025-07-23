@@ -21,9 +21,9 @@ from src.bot.keyboard.inline.registration import (
     registration_level_keyboard,
     registration_variant_keyboard,
 )
+from src.bot.keyboard.inline.user import user_main_kb
 from src.bot.serviсes.api import full_user_registration
 from src.bot.utils.validators import is_valid_russian_name
-from distutils.log import info
 
 
 registration_router = Router()
@@ -88,11 +88,11 @@ async def process_level(
     _, level = callback.data.split(':')
     await state.update_data(level=level)
     kb = await registration_variant_keyboard()
-    await callback.message.edit_reply_markup(reply_markup=None)
     await callback.message.answer(
         MSG_ENTER_VARIANT,
         reply_markup=kb.build()
     )
+    await callback.message.delete()
     await state.set_state(RegistrationState.waiting_for_variant)
 
 
@@ -106,9 +106,8 @@ async def process_variant(
 ) -> None:
     _, variant = callback.data.split(':')
     await state.update_data(variant=variant)
-    await callback.message.edit_reply_markup(reply_markup=None)
+    await callback.message.delete()
     data = await state.get_data()
-    print(data)
     try:
         await full_user_registration(
             first_name=data.get('name'),
@@ -116,9 +115,8 @@ async def process_variant(
             level=data.get('level'),
             variant=data.get('variant'),
         )
-        await callback.message.answer(MSG_REGISTERED_SUCCESS)
+        await callback.message.answer(MSG_REGISTERED_SUCCESS, reply_markup=user_main_kb().build())
     except Exception as e:
         logging.info(f'Ошибка {e}')
         await callback.message.answer('Ошибка регистрации. Обратитесь к администратору')
     await state.clear()
-    return

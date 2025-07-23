@@ -17,6 +17,7 @@ from src.app.schemas.user import (
 from src.app.api.validators import (
     validate_user_absent,
     validate_user_exists,
+    validate_user_profile_absent,
     validate_user_profile_exists,
 )
 from src.app.core.db import get_async_session
@@ -50,11 +51,23 @@ async def create_profile(
     user_profile: ProfileCreate,
     session: AsyncSession = Depends(get_async_session),
 ):
-    await validate_user_profile_exists(
+    await validate_user_profile_absent(
         user_id=user_profile.user_id,
         session=session
     )
     return await profile_crud.create(user_profile, session)
+
+
+@router.get(
+    '/users/{tg_id}/profile',
+    response_model=ProfileDB,
+    dependencies=[Depends(verify_bot_token)],
+)
+async def get_profile_info_by_tg_id(
+    tg_id: int,
+    session: AsyncSession = Depends(get_async_session),
+):
+    return await validate_user_profile_exists(tg_id, session)
 
 
 @router.get(

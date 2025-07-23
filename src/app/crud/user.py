@@ -16,5 +16,14 @@ class CRUDUser(CRUDBase[User, UserCreate, UserUpdate]):
         )
         return result.scalar_one_or_none()
 
+    async def get_users_by_role(
+        self,
+        session: AsyncSession,
+        role: str,
+    ) -> list[User]:
+        result = await session.execute(
+            select(User).where(User.role == role)
+        )
+        return result.scalars().all()
 
 bot_user_crud = CRUDUser(User)

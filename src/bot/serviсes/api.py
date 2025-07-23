@@ -19,7 +19,7 @@ async def full_user_registration(
 ):
     now = datetime.now()
     timestamp = str(int(now.timestamp()))[-6:]
-    email = f'barista{timestamp}@example.com'
+    email = f'user{timestamp}@example.com'
     password = f'p@ssW0rD!{timestamp}'
     try:
         user = await create_user(

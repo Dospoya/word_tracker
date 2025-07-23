@@ -40,13 +40,27 @@ async def validate_user_absent(
     )
 
 
-async def validate_user_profile_exists(
+async def validate_user_profile_absent(
     user_id: int,
     session: AsyncSession,
 ):
-    existing_profile = await profile_crud.get(obj_id=user_id, session=session)
+    existing_profile = await profile_crud.get(obj_id=user_id, session=session)  # Есть подозрение, что оно не работает
     if existing_profile:
         raise HTTPException(
             status_code=status.HTTP_409_CONFLICT,
             detail=f'Профиль пользователя с id: {user_id} уже существует',
         )
+
+
+async def validate_user_profile_exists(
+    tg_id: int,
+    session: AsyncSession,
+):
+    user = await validate_user_exists(tg_id, session)
+    existing_profile = await profile_crud.get_profile_by_tg_id(tg_id=user.tg_id, session=session)
+    if not existing_profile:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f'Профиль пользователя с tg_id: {user.tg_id} не найден',
+        )
+    return existing_profile
