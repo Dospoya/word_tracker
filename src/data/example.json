@@ -1,0 +1,50 @@
+{
+  "A": {
+    "MEANINGS": [
+      [
+        "Noun",
+        "the 1st letter of the Roman alphabet",
+        ["Letter", "Letter of the alphabet", "Alphabetic character"],
+        []
+      ],
+      [
+        "Noun",
+        "the blood group whose red cells carry the A antigen",
+        ["Blood group", "Blood type"],
+        []
+      ]
+    ],
+    "ANTONYMS": [],
+    "SYNONYMS": [
+      "Ampere",
+      "Type a",
+      "Antiophthalmic factor",
+      "Angstrom",
+      "Adenine"
+    ]
+  },
+  "BLOOD": {
+    "MEANINGS": [
+      [
+        "Verb",
+        "smear with blood, as in a hunting initiation rite, where the face of a person is smeared with the blood of the kill",
+        ["Daub", "Smear"],
+        []
+      ],
+      [
+        "Noun",
+        "temperament or disposition",
+        ["Disposition", "Temperament"],
+        ["a person of hot blood"]
+      ],
+      [
+        "Noun",
+        "people viewed as members of a group",
+        ["People"],
+        ["we need more young blood in this organization"]
+      ]
+    ],
+    "ANTONYMS": [],
+    "SYNONYMS": ["Rake", "Line of descent", "Blood line", "Stock", "Bloodline"]
+  }
+}

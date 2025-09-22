@@ -1,7 +1,7 @@
 from fastapi_users import schemas
 from pydantic import BaseModel, PositiveInt, field_validator, Field
 
-from app.models.user import UserRole
+from src.app.models.user import UserRole
 from .validators import validate_non_empty
 
 
@@ -11,7 +11,6 @@ class UserBaseMixin(BaseModel):
     role: UserRole = Field(default=UserRole.ADMIN)
 
     _validate_first_name = field_validator('first_name')(validate_non_empty)
-    _validate_last_name = field_validator('last_name')(validate_non_empty)
 
 
 class UserUpdateMixin(BaseModel):
@@ -20,8 +19,6 @@ class UserUpdateMixin(BaseModel):
     role: UserRole | None
 
     _validate_first_name = field_validator('first_name')(
-        lambda v: validate_non_empty(v, allow_none=True))
-    _validate_last_name = field_validator('last_name')(
         lambda v: validate_non_empty(v, allow_none=True))
 
 

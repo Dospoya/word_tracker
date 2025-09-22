@@ -2,10 +2,10 @@ import contextlib
 
 from fastapi_users.exceptions import UserAlreadyExists
 
-from app.core.config import settings
-from app.core.db import get_async_session
-from app.core.user import get_user_db, get_user_manager
-from app.schemas.user import UserCreate
+from src.app.core.config import settings
+from src.app.core.db import get_async_session
+from src.app.core.user import get_user_db, get_user_manager
+from src.app.schemas.user import UserCreate
 from src.app.models.user import UserRole
 
 
@@ -23,7 +23,6 @@ async def create_first_superuser() -> None:
                         email=settings.first_superuser_email,
                         password=settings.first_superuser_password,
                         first_name=settings.first_superuser_first_name,
-                        last_name=settings.first_superuser_last_name,
                         tg_id=settings.first_superuser_tg_id,
                         role=UserRole.ADMIN,
                     )

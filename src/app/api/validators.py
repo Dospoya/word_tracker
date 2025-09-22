@@ -1,16 +1,33 @@
-from sys import exc_info
 from fastapi import HTTPException, status
 
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.crud.user import bot_user_crud
-from app.schemas.user import UserCreate
+from src.app.crud.user import bot_user_crud
+from src.app.crud.profile import profile_crud
+from src.app.models import User, Profile
+from src.app.schemas.user import UserCreate
 
 
-async def check_user_exists_by_tg_id(
+async def validate_user_exists(
+    tg_id: int,
+    session: AsyncSession,
+) -> User:
+    existing_user = await bot_user_crud.get_user_by_tg_id(
+        tg_id=tg_id,
+        session=session,
+    )
+    if not existing_user:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f'Пользователь с tg_id: {tg_id} не найден',
+        )
+    return existing_user
+
+
+async def validate_user_absent(
     user_in: UserCreate,
     session: AsyncSession,
-):
+) -> UserCreate:
     existing_user = await bot_user_crud.get_user_by_tg_id(
         tg_id=user_in.tg_id,
         session=session,
@@ -21,3 +38,29 @@ async def check_user_exists_by_tg_id(
         status_code=status.HTTP_409_CONFLICT,
         detail=f'Пользователь с tg_id: {user_in.tg_id} уже существует',
     )
+
+
+async def validate_user_profile_absent(
+    user_id: int,
+    session: AsyncSession,
+):
+    existing_profile = await profile_crud.get_profile_by_user_id(user_id=user_id, session=session)
+    if existing_profile:
+        raise HTTPException(
+            status_code=status.HTTP_409_CONFLICT,
+            detail=f'Профиль пользователя с id: {user_id} уже существует',
+        )
+
+
+async def validate_user_profile_exists(
+    tg_id: int,
+    session: AsyncSession,
+):
+    user = await validate_user_exists(tg_id, session)
+    existing_profile = await profile_crud.get_profile_by_tg_id(tg_id=user.tg_id, session=session)
+    if not existing_profile:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f'Профиль пользователя с tg_id: {user.tg_id} не найден',
+        )
+    return existing_profile

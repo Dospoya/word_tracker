@@ -5,9 +5,9 @@ from typing import AsyncGenerator
 from fastapi import FastAPI
 from starlette.middleware.sessions import SessionMiddleware
 
-from app.api.routers import main_router
-from app.core.config import settings
-from app.core.init_db import create_first_superuser
+from src.app.api.routers import main_router
+from src.app.core.config import settings
+from src.app.core.init_db import create_first_superuser
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
