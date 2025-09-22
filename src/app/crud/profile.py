@@ -20,5 +20,15 @@ class ProfileCRUD(CRUDBase):
         )
         return profile.scalar_one_or_none()
 
+    async def get_profile_by_user_id(
+        self,
+        user_id: int,
+        session: AsyncSession
+    ):
+        result = await session.execute(
+            select(Profile).where(Profile.user_id == user_id)
+        )
+        return result.scalar_one_or_none()
+
 
 profile_crud = ProfileCRUD(Profile)

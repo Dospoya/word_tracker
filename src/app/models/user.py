@@ -24,6 +24,7 @@ class User(SQLAlchemyBaseUserTable[int], Base):
         uselist=False,
         cascade='delete',
     )
+    # user_words = relationship("UserWord", back_populates="user")
     # progress = relationship('WordProgress', back_populates='user')
 
     def __repr__(self) -> str:

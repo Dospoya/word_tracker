@@ -24,8 +24,9 @@ class WordStatus(str, Enum):
 
 
 class UserWord(Base):
-    word_id = Column(Integer, ForeignKey('global_word.id'), nullable=False)
+    word_id = Column(Integer, ForeignKey('globalword.id'), nullable=False)
     user_id = Column(Integer, ForeignKey('user.id'), nullable=False)
+    profile_id = Column(Integer, ForeignKey("profile.id"), nullable=False)
     status = Column(String, default=WordStatus.NEW)
     added_at = Column(DateTime, default=datetime.utcnow)
     global_word = relationship('GlobalWord', back_populates='user_words', lazy='joined')

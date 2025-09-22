@@ -28,12 +28,12 @@ class Profile(Base):
         'User',
         back_populates='profile',
     )
-    # words = relationship(
-    #     'UserWord',
-    #     back_populates='profile',
-    #     cascade='all, delete-orphan',
-    #     single_parent=True
-    # )
+    words = relationship(
+        'UserWord',
+        back_populates='profile',
+        cascade='all, delete-orphan',
+        single_parent=True
+    )
 
     def __repr__(self) ->str:
         return f'{self.user}'

@@ -44,7 +44,7 @@ async def validate_user_profile_absent(
     user_id: int,
     session: AsyncSession,
 ):
-    existing_profile = await profile_crud.get(obj_id=user_id, session=session)  # Есть подозрение, что оно не работает
+    existing_profile = await profile_crud.get_profile_by_user_id(user_id=user_id, session=session)
     if existing_profile:
         raise HTTPException(
             status_code=status.HTTP_409_CONFLICT,
