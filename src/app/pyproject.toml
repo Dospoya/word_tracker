@@ -47,4 +47,11 @@ dependencies = [
     "typing-inspection==0.4.1",
     "typing_extensions==4.13.2",
     "PyYAML==6.0.2",
+    "asyncpg>=0.30.0",
+]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = [
+    "app*"
 ]

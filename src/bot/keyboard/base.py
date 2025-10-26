@@ -1,14 +1,18 @@
 import re
+from typing import ClassVar, Final, Generic, TypeVar, override
 
 from aiogram.types import (
     InlineKeyboardButton,
     InlineKeyboardMarkup,
     KeyboardButton,
+    KeyboardButtonPollType,
+    KeyboardButtonRequestChat,
+    KeyboardButtonRequestUser,
     ReplyKeyboardMarkup,
 )
+from pydantic import BaseModel, ConfigDict, Field
 
-
-from src.bot.constants.text import (
+from bot.constants.text import (
     BACK_TEXT,
     MAIN_MENU_TEXT,
     PAGINATION_LEFT_TEXT,
@@ -16,74 +20,64 @@ from src.bot.constants.text import (
 )
 
 
-class BaseKeyboard:
-    """Абстрактный базовый класс для создания клавиатур.
+class KBButtonType(BaseModel):
+    model_config: ClassVar[ConfigDict] = ConfigDict(extra="forbid")
+    text: str
+    request_chat: KeyboardButtonRequestChat | None = None
+    request_contact: bool | None = None
+    request_poll: KeyboardButtonPollType | None = None
+    request_user: KeyboardButtonRequestUser | None = Field(
+        None, json_schema_extra={"deprecated": True}
+    )
 
-    Атрибуты:
-        buttons (list): Кнопки, заданные как список строк или пар (текст,
-        callback_data).
-        columns (int): Количество столбцов в клавиатуре.
-        include_service_buttons (bool): Включать ли кнопки "Назад" и "В меню".
-    """
+    def to_dict(self) -> KeyboardButton:
+        return KeyboardButton(
+            text=self.text,
+            request_contact=self.request_contact,
+            request_poll=self.request_poll,
+            request_user=self.request_user,
+            request_chat=self.request_chat,
+        )
 
-    BACK_TEXT = BACK_TEXT
-    MAIN_MENU_TEXT = MAIN_MENU_TEXT
+
+InlineBtn = str | tuple[str, str]
+ReplyBtn = str | KBButtonType
+
+B = TypeVar("B")
+
+
+class BaseKeyboard(Generic[B]):
+    BACK_TEXT: Final[str] = BACK_TEXT
+    MAIN_MENU_TEXT: Final[str] = MAIN_MENU_TEXT
 
     def __init__(
         self,
-        buttons: list[str] | list[tuple[str, str]] = None,
+        buttons: list[B] | None = None,
         columns: int = 2,
         include_service_buttons: bool = False,
     ) -> None:
-        """Инициализирует базовые параметры клавиатуры.
-
-        Args:
-            buttons (list[str] | list[tuple[str, str]]):Список кнопок (строки
-            или пары (текст, callback_data)).
-            columns (int): Количество столбцов.
-            include_service_buttons (bool):Добавлять ли кнопки "Назад"
-            и "В меню".
-
-        """
-        self.buttons = buttons or []
-        self.columns = columns
-        self.include_service_buttons = include_service_buttons
+        self.buttons: list[B] = buttons or []
+        self.columns: int = columns
+        self.include_service_buttons: bool = include_service_buttons
 
     def _slugify(self, text: str) -> str:
-        """Преобразует строку в безопасный идентификатор для callback_data.
-
-        Args:
-            text (str): Входной текст кнопки.
-
-        Returns:
-            str: Безопасный идентификатор.
-
-        """
-        slug = re.sub(r'\W+', '_', text.strip().lower())
-        return slug.strip('_')
+        slug = re.sub(r"\W+", "_", text.strip().lower())
+        return slug.strip("_")
 
 
-class InlineKeyboardBase(BaseKeyboard):
-    """Класс для создания inline-клавиатур.
-
-    Атрибуты:
-        state_id (str): Уникальный идентификатор состояния клавиатуры.
-        для поддержки перехода "Назад".
-    """
-
+class InlineKeyboardBase(BaseKeyboard[InlineBtn]):
     def __init__(
         self,
-        buttons: list[str] | list[tuple[str, str]] = None,
+        buttons: list[InlineBtn] | None = None,
         columns: int = 2,
         include_service_buttons: bool = False,
     ) -> None:
-        """Инициализирует inline-клавиатуру."""
         super().__init__(
             buttons=buttons,
             columns=columns,
             include_service_buttons=include_service_buttons,
         )
-        self.state_id = self.generate_state_id()
+        self.state_id: str = self.generate_state_id()
 
     def generate_state_id(self) -> str:
         """Генерирует уникальный идентификатор состояния клавиатуры.
@@ -92,44 +86,35 @@ class InlineKeyboardBase(BaseKeyboard):
             str: Уникальный идентификатор клавиатуры (state_id).
 
         """
-        base = '_'.join(
-            self._slugify(text)
-            if isinstance(text, str)
-            else self._slugify(text[1])
+        base = "_".join(
+            self._slugify(text) if isinstance(text, str) else self._slugify(text[1])
             for text in self.buttons
         )
-        return base or 'root'
+        return base or "root"
 
     def _add_service_buttons(
         self,
         keyboard: list[list[InlineKeyboardButton]],
     ) -> None:
-        """Добавляет сервисные кнопки в keyboard, если включены."""
         if self.include_service_buttons:
-            service_row = []
+            service_row: list[InlineKeyboardButton] = []
             service_row.append(
                 InlineKeyboardButton(
                     text=self.BACK_TEXT,
-                    callback_data='back',
+                    callback_data="back",
                 ),
             )
             service_row.append(
                 InlineKeyboardButton(
                     text=self.MAIN_MENU_TEXT,
-                    callback_data='main_menu',
+                    callback_data="main_menu",
                 ),
             )
             keyboard.append(service_row)
 
     def build(self) -> InlineKeyboardMarkup:
-        """Строит объект InlineKeyboardMarkup из кнопок.
-
-        Returns:
-            InlineKeyboardMarkup: Собранная клавиатура.
-
-        """
-        keyboard = []
-        row = []
+        keyboard: list[list[InlineKeyboardButton]] = []
+        row: list[InlineKeyboardButton] = []
 
         for button in self.buttons:
             if isinstance(button, tuple):
@@ -152,34 +137,26 @@ class InlineKeyboardBase(BaseKeyboard):
         return InlineKeyboardMarkup(inline_keyboard=keyboard)
 
 
-class ReplyKeyboardBase(BaseKeyboard):
-    """Класс для создания reply-клавиатур."""
+class ReplyKeyboardBase(BaseKeyboard[ReplyBtn]):
+    def __init__(
+        self,
+        buttons: list[ReplyBtn],
+        columns: int = 2,
+        include_service_buttons: bool = False,
+        one_time_keyboard: bool = False,
+    ) -> None:
+        super().__init__(buttons, columns, include_service_buttons)
+        self.one_time_keyboard: Final[bool] = one_time_keyboard
 
     def build(self) -> ReplyKeyboardMarkup:
-        """Строит объект ReplyKeyboardMarkup из кнопок.
-
-        Returns:
-            ReplyKeyboardMarkup: Собранная клавиатура.
-
-        """
-        keyboard = []
-        row = []
+        keyboard: list[list[KeyboardButton]] = []
+        row: list[KeyboardButton] = []
 
         for button in self.buttons:
             if isinstance(button, str):
                 btn = KeyboardButton(text=button)
-            elif isinstance(button, dict):
-                btn = KeyboardButton(**button)
-            elif isinstance(button, (list, tuple)):
-                # Позволяет задать текст и дополнительные параметры
-                text, *params = button
-                btn = KeyboardButton(
-                    text=text, **(params[0] if params else {}),
-                )
             else:
-                raise ValueError(
-                    f'Неподдерживаемый тип кнопки: {type(button)}',
-                )
+                btn = button.to_dict()
 
             row.append(btn)
 
@@ -201,54 +178,28 @@ class ReplyKeyboardBase(BaseKeyboard):
 
 
 class InlineKeyboardPagination(InlineKeyboardBase):
-    """Inline-клавиатура с поддержкой пагинации.
-
-    Атрибуты:
-        page_size (int): Количество кнопок на странице.
-        current_page (int): Текущая страница (0-индексация).
-        total_pages (int): Общее количество страниц.
-    """
-
     def __init__(
         self,
-        buttons: list[str] | list[tuple[str, str]],
+        buttons: list[InlineBtn],
         columns: int = 2,
         page_size: int = 6,
         include_service_buttons: bool = False,
         current_page: int = 0,
     ) -> None:
-        """Инициализирует пагинацию.
-
-        Args:
-            buttons (list[str | tuple[str, str]]): Все кнопки для пагинации.
-            columns (int, optional): Количество столбцов на странице.
-            page_size (int, optional): Количество кнопок на странице.
-            include_service_buttons (bool, optional):Включать сервисные кнопки.
-            current_page (int, optional):Номер текущей страницы (0-индексация).
-
-        """
         super().__init__(buttons, columns, include_service_buttons)
-        self.page_size = page_size
-        self.current_page = current_page
-        self.total_pages = (len(self.buttons) - 1) // self.page_size + 1
+        self.page_size: int = page_size
+        self.current_page: int = max(0, current_page)
+        self.total_pages: int = (len(self.buttons) - 1) // self.page_size + 1
 
+    @override
     def build(self) -> InlineKeyboardMarkup:
-        """Строит inline-клавиатуру с кнопками текущей страницы и навигацией.
-
-        Возвращает клавиатуру с кнопками только текущей страницы,
-        кнопками навигации и сервисными кнопками.
-
-        Returns:
-            InlineKeyboardMarkup: Клавиатура с пагинацией.
-
-        """
-        keyboard = []
+        keyboard: list[list[InlineKeyboardButton]] = []
+        row: list[InlineKeyboardButton] = []
 
         start = self.current_page * self.page_size
         end = start + self.page_size
-        page_buttons = self.buttons[start:end]
+        page_buttons: list[InlineBtn] = self.buttons[start:end]
 
-        row = []
         for button in page_buttons:
             if isinstance(button, tuple):
                 text, callback_data = button
@@ -267,14 +218,13 @@ class InlineKeyboardPagination(InlineKeyboardBase):
         if row:
             keyboard.append(row)
 
-        # Кнопки навигации
         if self.total_pages > 1:
-            nav_row = []
+            nav_row: list[InlineKeyboardButton] = []
             if self.current_page > 0:
                 nav_row.append(
                     InlineKeyboardButton(
                         text=PAGINATION_LEFT_TEXT,
-                        callback_data=f'page:{self.current_page - 1}',
+                        callback_data=f"page:{self.current_page - 1}",
                     ),
                 )
 
@@ -282,7 +232,7 @@ class InlineKeyboardPagination(InlineKeyboardBase):
                 nav_row.append(
                     InlineKeyboardButton(
                         text=PAGINATION_RIGHT_TEXT,
-                        callback_data=f'page:{self.current_page + 1}',
+                        callback_data=f"page:{self.current_page + 1}",
                     ),
                 )
             keyboard.append(nav_row)

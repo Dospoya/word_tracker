@@ -1,13 +1,12 @@
 import logging
 from types import TracebackType
-from typing import Any, Optional, Type
+from typing import Any
 
 import aiohttp
 
-from src.app.core.config import settings
+from contracts.shared.contracts import settings
 
-API_BOT_TOKEN = settings.api_bot_token
-API_URL = settings.api_url
+JSONType = dict[str, Any] | list[Any] | None
 
 
 class APIClient:
@@ -20,18 +19,18 @@ class APIClient:
 
     def __init__(
         self,
-        base_url: str = API_URL,
-        api_token: str = API_BOT_TOKEN,
+        base_url: str = settings.api_url,
+        api_token: str = settings.api_bot_token,
     ) -> None:
         """Инициализация клиента."""
-        self.base_url = base_url
-        self.headers = {
-            'Authorization': f'Bearer {api_token}',
-            'Content-Type': 'application/json',
+        self.base_url: str = base_url
+        self.headers: dict[str, str] = {
+            "Authorization": f"Bearer {api_token}",
+            "Content-Type": "application/json",
         }
         self.session: aiohttp.ClientSession | None = None
 
-    async def __aenter__(self) -> 'APIClient':
+    async def __aenter__(self) -> "APIClient":
         """Открывает aiohttp-сессию при входе в контекст."""
         if self.session is None or self.session.closed:
             self.session = aiohttp.ClientSession(base_url=self.base_url)
@@ -39,68 +38,46 @@ class APIClient:
 
     async def __aexit__(
         self,
-        exc_type: Optional[Type[BaseException]],
-        exc_val: Optional[BaseException],
-        exc_tb: Optional[TracebackType],
+        exc_type: type[BaseException] | None,
+        exc_val: BaseException | None,
+        exc_tb: TracebackType | None,
     ) -> None:
         """Закрывает aiohttp-сессию при выходе из контекста."""
         if self.session and not self.session.closed:
-            await self.session.close()
+            await (
+                self.session.close()
+            )  # (basedpyright: ignore[reportGeneralTypeIssues])
 
     async def get(
-        self,
-        path: str,
-        include_auth_headers: bool = True,
-        **kwargs: Any
-    ) -> Any | None:
+        self, path: str, include_auth_headers: bool = True, **kwargs: dict[str, Any]
+    ) -> JSONType:
         """Выполняет GET-запрос."""
         return await self._send_request(
-            'get',
-            path,
-            include_auth_headers=include_auth_headers,
-            **kwargs
+            "get", path, include_auth_headers=include_auth_headers, **kwargs
         )
 
     async def post(
-        self,
-        path: str,
-        include_auth_headers: bool = True,
-        **kwargs: Any
-    ) -> Any | None:
+        self, path: str, include_auth_headers: bool = True, **kwargs: dict[str, Any]
+    ) -> JSONType:
         """Выполняет POST-запрос."""
         return await self._send_request(
-            'post',
-            path,
-            include_auth_headers=include_auth_headers,
-            **kwargs
+            "post", path, include_auth_headers=include_auth_headers, **kwargs
         )
 
     async def delete(
-        self,
-        path: str,
-        include_auth_headers: bool = True,
-        **kwargs: Any
-    ) -> Any | None:
+        self, path: str, include_auth_headers: bool = True, **kwargs: dict[str, Any]
+    ) -> JSONType:
         """Выполняет DELETE-запрос."""
         return await self._send_request(
-            'delete',
-            path,
-            include_auth_headers=include_auth_headers,
-            **kwargs
+            "delete", path, include_auth_headers=include_auth_headers, **kwargs
         )
 
     async def patch(
-        self,
-        path: str,
-        include_auth_headers: bool = True,
-        **kwargs: Any
-    ) -> Any | None:
+        self, path: str, include_auth_headers: bool = True, **kwargs: dict[str, Any]
+    ) -> JSONType:
         """Выполняет PATCH-запрос."""
         return await self._send_request(
-            'patch',
-            path,
-            include_auth_headers=include_auth_headers,
-            **kwargs
+            "patch", path, include_auth_headers=include_auth_headers, **kwargs
         )
 
     async def _send_request(
@@ -108,8 +85,8 @@ class APIClient:
         method: str,
         path: str,
         include_auth_headers: bool = True,
-        **kwargs: Any,
-    ) -> Any | None:
+        **kwargs: dict[str, Any],
+    ) -> JSONType:
         """Выполняет HTTP-запрос указанного метода."""
         try:
             async with self.session.request(
@@ -118,15 +95,10 @@ class APIClient:
                 headers=self.headers if include_auth_headers else None,
                 **kwargs,
             ) as response:
-                # print(
-                #     f'HTTP {method.upper()} {self.base_url}{path} '
-                #     f'status: {response.status}, '
-                #     f'response: {await response.text()}',
-                # )
                 response.raise_for_status()
                 if response.status != 204:
                     return await response.json()
                 return None
         except aiohttp.ClientError as e:
-            logging.error(f'HTTP request failed: {e}')
+            logging.error(f"HTTP request failed: {e}")
             raise e

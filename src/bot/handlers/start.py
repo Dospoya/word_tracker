@@ -1,38 +1,43 @@
 from aiogram import Router
-from aiogram.types import Message
 from aiogram.fsm.context import FSMContext
+from aiogram.types import InlineKeyboardMarkup, Message
 
-from src.bot.keyboard.base import InlineKeyboardBase
-from src.bot.keyboard.inline.registration import (
-    registration_kb,
-)
-from src.bot.keyboard.inline.user import (
-    user_main_kb,
-)
-from src.bot.constants.text import (
+from bot.constants.text import (
     WELCOME_REGISTRATION_MESSAGE,
 )
-from src.bot.serviсes.api import check_user_role
-
+from bot.fsm.user import UserMain
+from bot.keyboard.inline.registration import (
+    registration_kb,
+)
+from bot.keyboard.inline.user import (
+    user_main_kb,
+)
+from bot.services.api import check_user_role
 
 start_router = Router()
 
 
 async def start_handler(message: Message, state: FSMContext):
-    tg_id = message.from_user.id
+    user = message.from_user
+    if user is None:
+        print("User is None")
+        return
+    tg_id = user.id
     role = await check_user_role(tg_id)
     match role:
-        case 'user':
-            kb: InlineKeyboardBase = user_main_kb().build()
-            await message.answer(
-                text='Привет, пользователь!',
-                reply_markup=kb,
+        case "user":
+            await state.set_state(UserMain.main_menu)
+            user_kb: InlineKeyboardMarkup = user_main_kb().build()
+            _ = await message.answer(
+                text="Привет, пользователь!",
+                reply_markup=user_kb,
             )
-        case 'admin':
-            await message.answer(text='Привет, админ!')
+        case "admin":
+            _ = await message.answer(text="Привет, админ!")
         case _:
-            kb: InlineKeyboardBase = registration_kb().build()
-            await message.answer(
+            await state.clear()
+            kb: InlineKeyboardMarkup = registration_kb().build()
+            _ = await message.answer(
                 text=WELCOME_REGISTRATION_MESSAGE,
                 reply_markup=kb,
             )

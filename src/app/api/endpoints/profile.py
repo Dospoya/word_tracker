@@ -1,8 +1,4 @@
-from fastapi import APIRouter, Depends
-from sqlalchemy.ext.asyncio import AsyncSession
-
-from src.app.crud.profile import profile_crud
-from src.app.models import Profile
+from fastapi import APIRouter
 
 router = APIRouter()
 

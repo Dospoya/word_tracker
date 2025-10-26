@@ -1,4 +1,5 @@
-from typing import Any, Generic, List, Optional, Type, TypeVar, Union
+from collections.abc import Sequence
+from typing import Any, Generic, TypeVar
 
 from fastapi.encoders import jsonable_encoder
 from pydantic import BaseModel
@@ -6,22 +7,22 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import DeclarativeBase
 
-from src.app.models import User
+from app.models.user import User
 
-ModelType = TypeVar('ModelType', bound=DeclarativeBase)
-CreateSchemaType = TypeVar('CreateSchemaType', bound=BaseModel)
-UpdateSchemaType = TypeVar('UpdateSchemaType', bound=BaseModel)
+ModelType = TypeVar("ModelType", bound=DeclarativeBase)
+CreateSchemaType = TypeVar("CreateSchemaType", bound=BaseModel)
+UpdateSchemaType = TypeVar("UpdateSchemaType", bound=BaseModel)
 
 
 class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
-    def __init__(self, model: Type[ModelType]) -> None:
+    def __init__(self, model: type[ModelType]) -> None:
         self.model = model
 
     async def get(
         self,
         obj_id: int,
         session: AsyncSession,
-    ) -> Optional[ModelType]:
+    ) -> ModelType | None:
         db_obj = await session.execute(
             select(self.model).where(
                 self.model.id == obj_id,
@@ -32,7 +33,7 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
     async def get_multi(
         self,
         session: AsyncSession,
-    ) -> List[ModelType]:
+    ) -> Sequence[ModelType]:
         db_objs = await session.execute(select(self.model))
         return db_objs.scalars().all()
 
@@ -40,12 +41,12 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
         self,
         obj_in: CreateSchemaType,
         session: AsyncSession,
-        user: Optional[User] = None,
+        user: User | None = None,
         commit: bool = True,
     ) -> ModelType:
         obj_in_data = obj_in.dict()
         if user is not None:
-            obj_in_data['user_id'] = user.id
+            obj_in_data["user_id"] = user.id
         db_obj = self.model(**obj_in_data)
         session.add(db_obj)
         if commit:
@@ -58,7 +59,7 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
     async def update(
         self,
         db_obj: ModelType,
-        obj_in: Union[UpdateSchemaType, dict[str, Any]],
+        obj_in: UpdateSchemaType | dict[str, Any],
         session: AsyncSession,
     ) -> ModelType:
         obj_data = jsonable_encoder(db_obj)

@@ -1,24 +1,21 @@
-from typing import List
-
 from pydantic import BaseModel
-from pydantic.types import PositiveInt
 
-from .base import BaseReadModel
+from app.schemas.base import BaseReadModel
 
 
 class Meanings(BaseModel):
     pos: str
-    examples: List[str]
-    synonyms: List[str]
+    examples: list[str]
+    synonyms: list[str]
     definition: str
 
 
 class GlobalWordDB(BaseReadModel):
     word: str
-    meanings: List[Meanings]
-    antonyms: List[str]
-    synonyms: List[str]
-    count: PositiveInt
+    meanings: list[Meanings]
+    antonyms: list[str]
+    synonyms: list[str]
+    count: int
 
 
 class GlobalWordCreate(BaseModel):

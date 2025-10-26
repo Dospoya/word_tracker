@@ -1,30 +1,24 @@
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from src.app.models import Profile, User
-from .base import CRUDBase
+from app.crud.base import CRUDBase
+from app.models.profile import Profile
+from app.models.user import User
+from app.schemas.profile import ProfileCreate, ProfileUpdate
 
 
-class ProfileCRUD(CRUDBase):
+class ProfileCRUD(CRUDBase[Profile, ProfileCreate, ProfileUpdate]):
     async def get_profile_by_tg_id(
         self,
         tg_id: int,
         session: AsyncSession,
     ):
         profile = await session.execute(
-            select(Profile)
-            .join(User)
-            .where(
-                User.tg_id == tg_id
-            )
+            select(Profile).join(User).where(User.tg_id == tg_id)
         )
         return profile.scalar_one_or_none()
 
-    async def get_profile_by_user_id(
-        self,
-        user_id: int,
-        session: AsyncSession
-    ):
+    async def get_profile_by_user_id(self, user_id: int, session: AsyncSession):
         result = await session.execute(
             select(Profile).where(Profile.user_id == user_id)
         )

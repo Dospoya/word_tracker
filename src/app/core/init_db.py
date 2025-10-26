@@ -2,12 +2,11 @@ import contextlib
 
 from fastapi_users.exceptions import UserAlreadyExists
 
-from src.app.core.config import settings
-from src.app.core.db import get_async_session
-from src.app.core.user import get_user_db, get_user_manager
-from src.app.schemas.user import UserCreate
-from src.app.models.user import UserRole
-
+from app.core.config import settings
+from app.core.db import get_async_session
+from app.core.user import get_user_db, get_user_manager
+from app.models.user import UserRole
+from app.schemas.user import UserCreate
 
 get_async_session_context = contextlib.asynccontextmanager(get_async_session)
 get_user_db_context = contextlib.asynccontextmanager(get_user_db)
@@ -26,12 +25,11 @@ async def create_first_superuser() -> None:
                         tg_id=settings.first_superuser_tg_id,
                         role=UserRole.ADMIN,
                     )
-                    await user_manager.create(user, safe=True)
+                    _ = await user_manager.create(user, safe=True)
                     print(
                         f"Superuser {settings.first_superuser_email} created",
                     )
                 except UserAlreadyExists:
                     print(
-                        f'Superuser {settings.first_superuser_email} '
-                        'already exists',
+                        f"Superuser {settings.first_superuser_email} already exists",
                     )
