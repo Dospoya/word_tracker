@@ -1,4 +1,3 @@
-from aiogram import Router
 from aiogram.fsm.context import FSMContext
 from aiogram.types import InlineKeyboardMarkup, Message
 
@@ -13,8 +12,6 @@ from bot.keyboard.inline.user import (
     user_main_kb,
 )
 from bot.services.api import check_user_role
-
-start_router = Router()
 
 
 async def start_handler(message: Message, state: FSMContext):

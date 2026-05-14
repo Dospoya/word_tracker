@@ -185,11 +185,13 @@ class InlineKeyboardPagination(InlineKeyboardBase):
         page_size: int = 6,
         include_service_buttons: bool = False,
         current_page: int = 0,
+        namespace: str = "word",
     ) -> None:
         super().__init__(buttons, columns, include_service_buttons)
-        self.page_size: int = page_size
+        self.page_size: int = max(1, page_size)
         self.current_page: int = max(0, current_page)
-        self.total_pages: int = (len(self.buttons) - 1) // self.page_size + 1
+        self.namespace: str = namespace
+        self.total_pages: int = max(1, (len(self.buttons) - 1)) // self.page_size + 1
 
     @override
     def build(self) -> InlineKeyboardMarkup:
@@ -200,9 +202,14 @@ class InlineKeyboardPagination(InlineKeyboardBase):
         end = start + self.page_size
         page_buttons: list[InlineBtn] = self.buttons[start:end]
 
+        page_num = self.current_page + 1
+
         for button in page_buttons:
             if isinstance(button, tuple):
                 text, callback_data = button
+                callback_data = callback_data.replace("{page}", str(page_num)).replace(
+                    "{state}", self.state_id
+                )
             else:
                 text = button
                 callback_data = self._slugify(text)
@@ -224,7 +231,9 @@ class InlineKeyboardPagination(InlineKeyboardBase):
                 nav_row.append(
                     InlineKeyboardButton(
                         text=PAGINATION_LEFT_TEXT,
-                        callback_data=f"page:{self.current_page - 1}",
+                        callback_data=(
+                            f"{self.namespace}:page:{page_num - 1}:{self.state_id}"
+                        ),
                     ),
                 )
 
@@ -232,7 +241,9 @@ class InlineKeyboardPagination(InlineKeyboardBase):
                 nav_row.append(
                     InlineKeyboardButton(
                         text=PAGINATION_RIGHT_TEXT,
-                        callback_data=f"page:{self.current_page + 1}",
+                        callback_data=(
+                            f"{self.namespace}:page:{page_num + 1}:{self.state_id}"
+                        ),
                     ),
                 )
             keyboard.append(nav_row)

@@ -6,13 +6,14 @@ from bot.constants.text import (
     DECLINE_TEXT,
     DELETE_PROFILE_TEXT,
     DELETE_WORD_TEXT,
+    DETAIL_WORD_TEXT,
     DOWNLOAD_WORDS_TEXT,
     EDIT_PROFILE_TEXT,
-    EDIT_WORD_TEXT,
     MAIN_MENU_OPTION_HELP,
     MAIN_MENU_OPTION_PRACTICE,
     MAIN_MENU_OPTION_PROFILE,
     MAIN_MENU_OPTION_VOCABULARY,
+    RETURN_TO_LIST_TEXT,
     SHOW_WORDS_TEXT,
 )
 from bot.keyboard.base import InlineBtn, InlineKeyboardBase, InlineKeyboardPagination
@@ -71,23 +72,25 @@ def user_confirm_kb():
     )
 
 
-def user_records_kb(records: list[dict[str, Any]]) -> InlineKeyboardPagination:
+def user_records_kb(
+    records: list[dict[str, Any]], page: int = 0
+) -> InlineKeyboardPagination:
     word_buttons: list[InlineBtn] = []
     for record in records:
         word = record.get("global_word").get("word")
         word_id = record.get("id")
         if isinstance(word, str) and isinstance(word_id, int):
-            word_buttons.append((word, f"word:{word_id}"))
+            word_buttons.append((word, f"word:select:{word_id}"))
     return InlineKeyboardPagination(
-        buttons=word_buttons,
-        include_service_buttons=True,
+        buttons=word_buttons, current_page=page, namespace="word"
     )
 
 
-def user_word_kb():
+def user_word_kb(word_id: int, page: int, sid: int):
     buttons: list[InlineBtn] = [
-        (EDIT_WORD_TEXT, "edit_word"),
-        (DELETE_WORD_TEXT, "delete_word"),
+        (DETAIL_WORD_TEXT, f"word:detail:{word_id}:{page}:{sid}"),
+        (RETURN_TO_LIST_TEXT, f"w:page:{page}:{sid}"),
+        (DELETE_WORD_TEXT, f"word:delete:{word_id}:{page}:{sid}"),
     ]
     return InlineKeyboardBase(
         buttons=buttons,

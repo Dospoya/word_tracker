@@ -26,10 +26,11 @@ INVALID_NAME_TEXT = (
 )
 
 ADD_WORD_TEXT = "Добавить слово"
-EDIT_WORD_TEXT = "Редактировать слово"
+DETAIL_WORD_TEXT = "Подробнее"
 DELETE_WORD_TEXT = "Удалить слово"
 DOWNLOAD_WORDS_TEXT = "Скачать список всех слов"
 SHOW_WORDS_TEXT = "Показать все слова"
+RETURN_TO_LIST_TEXT = "Назад к списку слов"
 
 EDIT_PROFILE_TEXT = "Редактировать профиль"
 DELETE_PROFILE_TEXT = "Удалить профиль"

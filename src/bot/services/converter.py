@@ -48,11 +48,30 @@ def format_entry(entry: Entry | None, short_definition: bool = False) -> str | N
         definition: str = _clip(meaning.get("definition", ""), 100)
         if definition:
             lines.append(f"📖 Definition: {definition}")
-        examples = ",\n".join(entry.get("examples", []))
-        if examples:
-            lines.append(f"💡 Examples: {examples}")
-        synonyms = ", ".join(entry.get("synonyms", []))
+        examples_text = ",\n".join(meaning.get("examples", []))
+        if examples_text:
+            lines.append(f"💡 Examples: {examples_text}")
+        synonyms = ", ".join(meaning.get("synonyms", []))
         if synonyms:
             lines.append(f"Synonyms: {synonyms}")
         return "\n".join(lines)
-    return ""
+
+    for index, meaning in enumerate(meanings[:3], start=1):
+        pos = meaning.get("pos", "")
+        definition = _clip(meaning.get("definition", ""), 180)
+        title = f"{index}. {pos}" if pos else f"{index}."
+        lines.append(title)
+        if definition:
+            lines.append(f"   {definition}")
+        examples = meaning.get("examples", [])
+        if examples:
+            lines.append(f"   Example: {_clip(examples[0], 140)}")
+        local_synonyms = meaning.get("synonyms", [])
+        if local_synonyms:
+            lines.append(f"   Synonyms: {', '.join(local_synonyms[:5])}")
+
+    if general_synonyms:
+        lines.append(f"Common synonyms: {', '.join(general_synonyms[:8])}")
+    if general_antonyms:
+        lines.append(f"Antonyms: {', '.join(general_antonyms[:8])}")
+    return "\n".join(lines)
